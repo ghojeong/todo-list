@@ -14,7 +14,7 @@ const todoListService = {
     return response.data;
   },
   async moveTodoList(beforeColumnId, afterColumId, cardData, targetCardId) {
-    const response = await axios.delete("/todos/move", {
+    const response = await axios.put("/todos/move", {
       beforeColumnId, afterColumId, cardData, targetCardId
     });
     return response.data;
