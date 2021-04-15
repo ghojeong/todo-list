@@ -25,7 +25,7 @@ const todoListService = {
     localStorage.setItem('todos', JSON.stringify({ ...todos }));
   },
   async getTodoList() {
-    await delay(500);
+    await delay(0);
     const db = localStorage.getItem('todos');
     return db ? JSON.parse(db) : datas;
   },

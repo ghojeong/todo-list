@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import TodoList from './todoList/TodoList';
 import styled from 'styled-components';
 import todoListService from '../../service/todoListService.js';
+import useDragHook from '../../hook/dragHook.js';
 
 const StyledTodoMain = styled.div`
   display: flex;
@@ -10,15 +11,22 @@ const StyledTodoMain = styled.div`
 
 const TodoMain = ({ postLogs }) => {
   const [todoColumns, setTodoColumns] = useState({});
+  const [dragging, handleDragStart, handleDragEnter, getStyleDragging] = useDragHook(
+    setTodoColumns
+  );
+
+  useEffect(() => {
+    getInitTodoData();
+  }, []);
+
+  useEffect(() => {
+    setTodoColumns(todoColumns);
+  }, [setTodoColumns]);
 
   const getInitTodoData = async () => {
     const todoListData = await todoListService.getTodoList();
     setTodoColumns(todoListData.todoData);
   };
-
-  useEffect(() => {
-    getInitTodoData();
-  }, []);
 
   const deleteTodoColumn = (id) => {
     setTodoColumns((todoColumns) => {
@@ -28,7 +36,16 @@ const TodoMain = ({ postLogs }) => {
   };
 
   const todoColumneList = Object.values(todoColumns).map((data) => (
-    <TodoList data={data} deleteTodoColumn={deleteTodoColumn} postLogs={postLogs} />
+    <TodoList
+      key={data.id}
+      data={data}
+      dragging={dragging}
+      getStyleDragging={getStyleDragging}
+      deleteTodoColumn={deleteTodoColumn}
+      postLogs={postLogs}
+      handleDragStart={handleDragStart}
+      handleDragEnter={handleDragEnter}
+    />
   ));
 
   return <StyledTodoMain>{todoColumneList}</StyledTodoMain>;
