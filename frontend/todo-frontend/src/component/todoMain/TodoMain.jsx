@@ -27,7 +27,7 @@ const TodoMain = ({ postLogs }) => {
     });
   };
 
-  const todoColumneList = todoColumns && Object.values(todoColumns).map((data) => (
+  const todoColumneList = Object.values(todoColumns).map((data) => (
     <TodoList
       key={data.id}
       data={data}
