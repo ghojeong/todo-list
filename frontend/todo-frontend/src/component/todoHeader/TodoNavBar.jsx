@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import TodoLog from "./TodoLog";
-import logService from "../../service/logService.js";
 
 const NavBar = styled.div`
   width: 452px;

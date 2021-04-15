@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import logService from '../service/logService.js';
 
 const useLogHook = (defaultLogs) => {
   const [logs, setLogs] = useState(defaultLogs);
+  const resetLogs = async () => {
+    const newLogs = await logService.getLog();
+    await setLogs(newLogs);
+  }
 
-  const postLogs = (newLog) => {
-    logService.postLog(newLog);
-    const newLogs = logService.getLog();
-    setLogs([...newLogs]);
+  const postLogs = async (newLog) => {
+    await logService.postLog(newLog);
+    resetLogs();
   };
 
   useEffect(() => {
-    const logs = logService.getLog();
-    setLogs(logs);
+    resetLogs();
   }, []);
 
   return [logs, postLogs];

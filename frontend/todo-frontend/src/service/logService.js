@@ -1,13 +1,13 @@
+import axios from "./axios";
+
 const logService = {
-  postLog: (newLog) => {
-    const db = localStorage.getItem("logs");
-    const logs = JSON.parse(db);
-    if (logs) localStorage.setItem("logs", JSON.stringify([newLog, ...logs]));
-    else localStorage.setItem("logs", JSON.stringify([newLog]));
+  postLog: async (newLog) => {
+    const response = await axios.post("/logs", newLog);
+    return response.data;
   },
-  getLog: () => {
-    const db = localStorage.getItem("logs");
-    return JSON.parse(db);
+  getLog: async () => {
+    const response = await axios.get("/logs");
+    return response.data;
   },
 };
 
