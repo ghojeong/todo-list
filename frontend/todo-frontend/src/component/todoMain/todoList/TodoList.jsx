@@ -190,7 +190,14 @@ const TodoList = ({
       delete deleteColumnCardList[cardData.id];
       localStorage.setItem("todos", JSON.stringify(todoDB));
     }
-    setDragEl("드래그 끝났다!");
+    const beforeColumnTitle = todoColumns[beforeColumnId].title;
+    postLogs({
+      columnTitle: beforeColumnTitle,
+      itemTitle: cData.title,
+      action: "move",
+      date: Date.now(),
+      movedColumnTitle: title,
+    });
   };
 
   const addItem = (cardList, cardId, data) => {

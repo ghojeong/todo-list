@@ -44,6 +44,7 @@ const TodoLog = ({
       logMessage = `${columnTitle}에 ${itemTitle}를 ${changedTitle}로 변경하였습니다.`;
       break;
     case "move":
+      logMessage = `${itemTitle}을 ${columnTitle}에서 ${movedColumnTitle}로 이동하였습니다.`;
       break;
     default:
       return;
