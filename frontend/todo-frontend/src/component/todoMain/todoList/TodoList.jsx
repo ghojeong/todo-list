@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import TodoItem from './TodoItem';
-import TodoListForm from './TodoListForm';
-import DeleteBtn from '../../atom/DeleteBtn.jsx';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import useTodoHook from '../../../hook/todoHook';
+import DeleteBtn from '../../atom/DeleteBtn.jsx';
+import TodoItem from './TodoItem';
+import TodoListForm from './TodoListForm';
 
 const StyledTodoList = styled.div`
   width: 308px;
@@ -165,6 +165,7 @@ const TodoList = ({
         todoColumns[id].todoCards[cData.id] = cData;
         return { ...todoColumns };
       });
+      // TODO: localStorage 를 service 로 옮겨주세요
       //해당 컬럼에 집어넣기
       const todoDB = JSON.parse(localStorage.getItem('todos'));
       const columnCardList = todoDB.todoData[id].todoCards;
@@ -174,6 +175,7 @@ const TodoList = ({
         [cData.id]: cData,
       };
       delete deleteColumnCardList[cardData.id];
+      // TODO: localStorage 를 service 로 옮겨주세요
       localStorage.setItem('todos', JSON.stringify({ ...todoDB }));
     } else {
       let newTodoCardList;
@@ -185,6 +187,7 @@ const TodoList = ({
         todoColumns[id].todoCards = newTodoCardList;
         return { ...todoColumns };
       });
+      // TODO: localStorage 를 service 로 옮겨주세요
       //LOCALSTORAGE 부분 해야함
       const todoDB = JSON.parse(localStorage.getItem('todos'));
       todoDB.todoData[id].todoCards = newTodoCardList;

@@ -4,17 +4,22 @@ import todoListService from '../service/todoListService';
 const useTodoHook = (setTodos, setTodoColumns) => {
   const [loading, setLoading] = useState(false);
 
+  const resetTodoColumns = async () => {
+    const newTodoColumns = await todoListService.getTodoList();
+    setTodoColumns(newTodoColumns);
+  }
+
   const postTodos = async (columnId, cardId, todoCard) => {
     setLoading(true);
-    await todoListService.postTodoList(columnId, { [cardId]: todoCard });
+    await todoListService.postTodoList(columnId, todoCard);
     setTodos((todos) => ({ [cardId]: todoCard, ...todos }));
-    setTodoColumns(JSON.parse(localStorage.getItem('todos')).todoData);
+    await resetTodoColumns();
     setLoading(false);
   };
   const deleteTodos = async (columnId, cardId) => {
     setLoading(true);
     await todoListService.deleteTodoList(columnId, cardId);
-    setTodoColumns(JSON.parse(localStorage.getItem('todos')).todoData);
+    await resetTodoColumns();
     setTodos((todos) => {
       delete todos[cardId];
       return { ...todos };
@@ -23,8 +28,8 @@ const useTodoHook = (setTodos, setTodoColumns) => {
   };
   const putTodos = async (columnId, cardId, todoCard) => {
     setLoading(true);
-    await todoListService.updateTodoList(columnId, { [cardId]: todoCard });
-    setTodoColumns(JSON.parse(localStorage.getItem('todos')).todoData);
+    await todoListService.updateTodoList(columnId, todoCard);
+    await resetTodoColumns();
     setTodos((todos) => ({ ...todos, [cardId]: todoCard }));
     setLoading(false);
   };
